@@ -1,0 +1,143 @@
+/* The article section adds breathing room around the card grid. */
+.article-section {
+  padding: clamp(3rem, 6vw, 5rem) max(5vw, 1.25rem);
+}
+
+/* The title and introduction sit together above the articles. */
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* The section title uses the main brand text colour. */
+.section-heading h2 {
+  color: var(--charcoal);
+}
+
+/* The introduction stays narrow enough for comfortable reading. */
+.section-heading > p {
+  max-width: 390px;
+  margin-bottom: 0.7rem;
+  color: var(--slate);
+}
+
+/* Search and filters share a flexible row above the resource cards. */
+.article-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+/* The search field label remains visible for all users. */
+.article-search-label {
+  flex-basis: 100%;
+  font-weight: 700;
+}
+
+/* Search input has a readable border and follows the current theme. */
+.article-search {
+  flex: 1 1 250px;
+  min-height: 44px;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--charcoal);
+  background: var(--off-white);
+  font: inherit;
+}
+
+/* Category controls wrap neatly instead of overflowing on smaller screens. */
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Filter buttons provide a large, keyboard-friendly touch target. */
+.category-button {
+  min-height: 44px;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--charcoal);
+  background: var(--off-white);
+  font: inherit;
+  cursor: pointer;
+}
+
+/* The current category uses the accent color to show its selected state. */
+.category-button[aria-pressed="true"] {
+  border-color: var(--orange);
+  box-shadow: inset 0 0 0 1px var(--orange);
+  font-weight: 700;
+}
+
+/* A small result count confirms filtering as the visitor types. */
+.article-results {
+  margin-bottom: 1rem;
+  color: var(--slate);
+}
+
+/* Empty searches receive a clear recovery message. */
+.no-articles {
+  padding: 1rem;
+  border: 1px solid var(--line);
+}
+
+/* Article cards use four equal columns on wider screens. */
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+/* Each article uses one subtle border and the requested padding. */
+.article-card {
+  min-width: 0;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  background: var(--off-white);
+}
+
+/* Article photographs have a consistent 16:9 crop. */
+.image-landscape {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 0.9rem;
+}
+
+/* Card titles keep a small gap before their description. */
+.article-card-copy h3 {
+  margin-bottom: 0.4rem;
+}
+
+/* Card descriptions use muted text and no extra bottom space. */
+.article-card-copy p {
+  margin-bottom: 0;
+  color: var(--slate);
+}
+
+/* Mid-sized displays reduce the card grid to two columns. */
+@media (max-width: 900px) {
+  .article-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mobile screens display one article card per row. */
+@media (max-width: 600px) {
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+}

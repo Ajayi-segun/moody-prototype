@@ -1,0 +1,52 @@
+/* Monthly updates place the news list beside a square gym photo. */
+.monthly-updates {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* The updates heading is smaller than the main mission heading. */
+.monthly-updates h2 {
+  margin-bottom: 0.6rem;
+  color: var(--charcoal);
+  font-size: 1.65rem;
+}
+
+/* The monthly update list uses a compact readable indent. */
+.monthly-updates ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+/* Figures have no default gap around locally bundled photography. */
+.image-figure {
+  margin: 0;
+}
+
+/* Images fill their frame without stretching out of proportion. */
+.image-content {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The hero update photo stays the specified square size. */
+.image-square {
+  width: 120px;
+  height: 120px;
+}
+
+/* The update photo shrinks slightly on small mobile screens. */
+@media (max-width: 600px) {
+  .monthly-updates {
+    grid-template-columns: minmax(0, 1fr) 100px;
+    gap: 0.75rem;
+  }
+
+  .image-square {
+    width: 100px;
+    height: 100px;
+  }
+}

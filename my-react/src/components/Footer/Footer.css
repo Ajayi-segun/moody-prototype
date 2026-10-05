@@ -1,0 +1,13 @@
+/* The copyright footer centres a single muted ownership line. */
+.site-footer {
+  padding: 0.85rem 1rem;
+  color: var(--slate);
+  background: var(--off-white);
+  text-align: center;
+}
+
+/* Copyright text stays small and has no trailing paragraph gap. */
+.site-footer p {
+  margin-bottom: 0;
+  font-size: 1rem;
+}

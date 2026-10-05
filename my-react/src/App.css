@@ -1,0 +1,137 @@
+/* The skip link is hidden until keyboard focus moves to it. */
+.skip-link {
+  position: absolute;
+  z-index: 20;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  transform: translateY(-150%);
+  color: var(--off-white);
+  background: var(--charcoal);
+}
+
+/* Keyboard users can reveal the skip link before the page navigation. */
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* The hero places mission copy and new updates in two columns. */
+.hero-panel {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding: clamp(2rem, 5vw, 5rem) max(5vw, 1.25rem);
+  background: var(--surface-grey);
+}
+
+/* The main feature area uses the full available width. */
+.section-shell {
+  width: 100%;
+}
+
+/* Static member tools are separated from the editorial cards. */
+.member-tools {
+  padding: clamp(2.5rem, 5vw, 4rem) max(5vw, 1.25rem);
+  background: var(--surface-grey);
+}
+
+/* The member tools introduction is kept to a readable line length. */
+.member-tools-intro {
+  max-width: 720px;
+  color: var(--slate);
+}
+
+/* Planned member features appear as a simple four-column grid. */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+/* Feature descriptions use a bordered card with no shadow. */
+.tool-item {
+  padding: 1rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--off-white);
+}
+
+/* Feature copy is muted and does not add space after the final line. */
+.tool-item p {
+  margin-bottom: 0;
+  color: var(--slate);
+}
+
+/* The FAQ area separates practical answers from planned member tools. */
+.faq-section {
+  padding: clamp(2.5rem, 5vw, 4rem) max(5vw, 1.25rem);
+}
+
+/* FAQ content uses a readable width and dark themed page text. */
+.faq-content {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+/* Each native disclosure gets a strong border and comfortable spacing. */
+.faq-item {
+  margin-top: 0.75rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  background: var(--off-white);
+}
+
+/* FAQ questions remain keyboard-operable native disclosure controls. */
+.faq-item summary {
+  color: var(--charcoal);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Open FAQ answers use secondary text colour with readable line spacing. */
+.faq-item p {
+  margin: 0.75rem 0 0;
+  color: var(--slate);
+}
+
+/* Testimonials and locations sit beside each other on wide screens. */
+.lower-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: clamp(2rem, 5vw, 4rem) max(5vw, 1.25rem);
+}
+
+/* Shared responsive rules collapse page-level content at tablet width. */
+@media (max-width: 900px) {
+  .hero-panel {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .tools-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lower-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Narrow screens stack the hero and feature cards in a single column. */
+@media (max-width: 600px) {
+  .hero-panel {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lower-content {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+}

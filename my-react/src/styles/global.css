@@ -1,0 +1,202 @@
+/* The root palette and base type settings keep the brand consistent. */
+:root {
+  --blue: #1a5f7a;
+  --charcoal: #1a1a1a;
+  --off-white: #f5f5f0;
+  --orange: #e97e5e;
+  --slate: #6b6b6b;
+  --surface-grey: #e9e9e5;
+  --lilac: #eee9ef;
+  --line: #c8c8c2;
+  --focus-color: #1a1a1a;
+  --link-hover: #79400f;
+  --brand-mark-background: #e97e5e;
+  --brand-mark-text: #1a1a1a;
+  --mailing-background: #1a1a1a;
+  --mailing-foreground: #f5f5f0;
+  --mailing-control-background: #f5f5f0;
+  --mailing-control-text: #1a1a1a;
+  --mailing-button-background: #000;
+  --mailing-button-text: #f5f5f0;
+  --mailing-link: #d0d0ca;
+  --font-body: "Segoe UI", Arial, sans-serif;
+  --font-display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  color-scheme: light;
+  color: var(--charcoal);
+  background: var(--off-white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+/* The dark theme updates the complete page palette without changing content. */
+:root:has(#root > .site-shell.dark-mode) {
+  --charcoal: #f5f5f0;
+  --off-white: #171717;
+  --orange: #ff895c;
+  --slate: #d0d0ca;
+  --surface-grey: #242424;
+  --lilac: #302836;
+  --line: #707070;
+  --focus-color: #ffdf70;
+  --link-hover: #ffdf70;
+  --brand-mark-background: #ff895c;
+  --brand-mark-text: #1a1a1a;
+  --mailing-background: #090909;
+  --mailing-foreground: #f5f5f0;
+  --mailing-control-background: #242424;
+  --mailing-control-text: #f5f5f0;
+  --mailing-button-background: #f5f5f0;
+  --mailing-button-text: #171717;
+  --mailing-link: #e3e3df;
+  color-scheme: dark;
+}
+
+/* High contrast mode strengthens text, borders and keyboard focus. */
+:root:has(#root > .site-shell.high-contrast) {
+  --charcoal: #000;
+  --off-white: #fff;
+  --orange: #8a2600;
+  --slate: #333;
+  --surface-grey: #fff;
+  --lilac: #fff;
+  --line: #000;
+  --focus-color: #000;
+  --link-hover: #000;
+  --brand-mark-background: #ffeb00;
+  --brand-mark-text: #000;
+  --mailing-background: #000;
+  --mailing-foreground: #fff;
+  --mailing-control-background: #fff;
+  --mailing-control-text: #000;
+  --mailing-button-background: #ffeb00;
+  --mailing-button-text: #000;
+  --mailing-link: #fff;
+  color-scheme: light;
+}
+
+/* High contrast dark mode uses white text and bright yellow on black. */
+:root:has(#root > .site-shell.dark-mode.high-contrast) {
+  --charcoal: #fff;
+  --off-white: #000;
+  --orange: #ffeb00;
+  --slate: #fff;
+  --surface-grey: #000;
+  --lilac: #000;
+  --line: #fff;
+  --focus-color: #ffeb00;
+  --link-hover: #ffeb00;
+  --brand-mark-background: #ffeb00;
+  --brand-mark-text: #000;
+  --mailing-background: #000;
+  --mailing-foreground: #fff;
+  --mailing-control-background: #000;
+  --mailing-control-text: #fff;
+  --mailing-button-background: #ffeb00;
+  --mailing-button-text: #000;
+  --mailing-link: #fff;
+  color-scheme: dark;
+}
+
+/* Predictable sizing makes the layout easier to understand and maintain. */
+* {
+  box-sizing: border-box;
+}
+
+/* The page uses the full viewport without a browser-default margin. */
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+/* The main content area stays readable on wide screens. */
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* The app shell applies the selected theme across every page section. */
+.site-shell {
+  min-height: 100vh;
+  color: var(--charcoal);
+  background: var(--off-white);
+}
+
+/* Headings use an athletic display face for a distinct brand hierarchy. */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+/* Shared page elements start without extra space above their content. */
+p,
+figure,
+blockquote {
+  margin-top: 0;
+}
+
+/* Section headings scale smoothly and stay compact enough for mobile. */
+h2 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.85rem, 3.2vw, 2.65rem);
+  line-height: 1.05;
+}
+
+/* Card headings add a clear display-style step below section headings. */
+h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  line-height: 1.1;
+}
+
+/* Paragraphs and lists retain the accessible minimum text size. */
+p,
+li,
+address {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/* Form controls inherit the same readable body typeface as page copy. */
+input,
+button {
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+/* All keyboard-focused controls receive a clear high-contrast outline. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+/* This utility hides text visually while keeping it available to assistive tech. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Eyebrow labels add a consistent visual cue above section headings. */
+.eyebrow {
+  margin-bottom: 0.4rem;
+  color: var(--slate);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}

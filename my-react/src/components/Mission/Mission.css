@@ -1,0 +1,14 @@
+/* Mission copy stays within a comfortable line length. */
+.mission-copy {
+  max-width: 690px;
+}
+
+/* The mission heading uses the primary brand text colour. */
+.mission-copy h2 {
+  color: var(--charcoal);
+}
+
+/* The final mission paragraph has no unnecessary trailing gap. */
+.mission-copy p:last-child {
+  margin-bottom: 0;
+}

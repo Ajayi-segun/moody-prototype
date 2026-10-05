@@ -1,0 +1,118 @@
+/* The mailing list lays out signup and social links side by side. */
+.mailing-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 2rem max(5vw, 1.25rem);
+  color: var(--mailing-foreground);
+  background: var(--mailing-background);
+}
+
+/* The signup heading is white and stands out from the dark band. */
+.mailing-main h2 {
+  margin-bottom: 0.75rem;
+  color: var(--mailing-foreground);
+  font-size: 1.6rem;
+}
+
+/* Email input and button form one horizontal signup group. */
+.mailing-form {
+  display: flex;
+  max-width: 510px;
+  gap: 0.6rem;
+}
+
+/* The email control has a visible label and bordered light surface. */
+.mailing-form input {
+  min-width: 220px;
+  min-height: 46px;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--mailing-control-text);
+  background: var(--mailing-control-background);
+  font: inherit;
+}
+
+/* The join button remains a static, high-contrast mockup control. */
+.mailing-form button {
+  min-width: 90px;
+  min-height: 46px;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--mailing-button-text);
+  background: var(--mailing-button-background);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* The form response clearly explains the static demo behavior. */
+.mailing-feedback {
+  min-height: 1.65em;
+  margin: 0.55rem 0 0;
+  color: var(--mailing-foreground);
+}
+.mailing-form button:hover {
+  transition: background 0.3s ease-in-out;
+  border: 1px solid var(--orange);
+  color: rgb(211, 198, 174);
+}
+
+/* Footer links appear as a vertical set of three muted lines. */
+.footer-links {
+  display: grid;
+  gap: 0.35rem;
+}
+
+/* Footer links remain legible on the charcoal mailing section. */
+.footer-links a {
+  color: var(--mailing-link);
+  text-decoration: none;
+}
+
+/* Social icons form a short horizontal row under the links. */
+.social-links {
+  display: flex;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+/* Each social link has a large enough clickable target. */
+.social-links a {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: var(--mailing-foreground);
+}
+
+/* Social SVGs use the current foreground colour. */
+.social-links svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+/* Tablet widths reduce the gap between the signup and link areas. */
+@media (max-width: 900px) {
+  .mailing-list {
+    gap: 2rem;
+  }
+}
+
+/* Mobile layout stacks the signup and links and fills the available width. */
+@media (max-width: 600px) {
+  .mailing-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.75rem;
+  }
+
+  .mailing-form input {
+    min-width: 0;
+    width: 100%;
+  }
+}

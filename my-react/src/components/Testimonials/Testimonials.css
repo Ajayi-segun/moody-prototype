@@ -1,0 +1,52 @@
+/* Testimonials use the soft lilac band with readable dark text. */
+.testimonials-band {
+  padding: 1.5rem;
+  background: var(--lilac);
+}
+
+/* The testimonial heading stays dark on the lilac background. */
+.testimonials-content h2 {
+  color: var(--charcoal);
+}
+
+/* Member quotes are separated into an easy-to-scan vertical list. */
+.testimonial-list {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Each quote aligns its 60-pixel portrait to the left. */
+.testimonial {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr);
+  align-items: start;
+  gap: 0.85rem;
+}
+
+/* Portraits use a square crop at the requested avatar size. */
+.testimonial-photo {
+  display: block;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+/* Quotes use concise line spacing beside each portrait. */
+.testimonial-copy blockquote {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* The member name is bold and sits below the quote. */
+.testimonial-name {
+  margin-bottom: 0;
+  font-weight: 700;
+}
+
+/* The persona detail is secondary to the member's name. */
+.testimonial-detail {
+  margin-bottom: 0;
+  color: var(--slate);
+  font-size: 1rem;
+}
