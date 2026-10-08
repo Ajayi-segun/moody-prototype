@@ -7,7 +7,9 @@ import './Footer.css'
 function Footer() {
   return (
     <footer className="site-footer">
-      <p>© ToKa Fitness. All rights reserved.</p>
+      <p>© ToKa Fitness. All rights reserved.<br />
+        <span className="copyright-notice">Strictly by segz</span>
+      </p>
     </footer>
   )
 }

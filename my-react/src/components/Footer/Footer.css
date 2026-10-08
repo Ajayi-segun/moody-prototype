@@ -11,3 +11,12 @@
   margin-bottom: 0;
   font-size: 1rem;
 }
+
+.copyright-notice {
+  font-weight:bold;
+  color: rgb(194, 78, 78);
+}
+.copyright-notice:hover {
+  color: rgb(255, 72, 72);
+  transition: all 0.3s ease-in-out ;
+}

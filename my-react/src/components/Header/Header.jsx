@@ -35,7 +35,7 @@ function Header({
           </>
         ) : (
           <>
-            <a href="/sign-in">Sign in</a>
+            <a className="sign-in" href="/sign-in">Sign in</a>
             <a className="account-button" href="/register">Join us</a>
           </>
         )}
