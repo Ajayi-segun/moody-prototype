@@ -21,6 +21,22 @@
   font-style: normal;
 }
 
+/* The visit timestamp and live status are easy to scan beside the hours. */
+.location-live-status {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 0.8rem;
+  color: var(--slate);
+}
+
+.location-open {
+  color: #287a3d;
+}
+
+.location-closed {
+  color: var(--orange);
+}
+
 /* Address labels are bold and pending details use the theme accent. */
 .location-label {
   font-weight: 700;
@@ -30,16 +46,6 @@
 .location-pending {
   color: var(--orange);
   border-bottom: 1px solid currentColor;
-  cursor: pointer;
-  >a {
-    color: inherit;
-    text-decoration: none;
-  }
-}
-
-.location-pending:hover {
-  transition: color 0.2s ease-in-out;
-  color: var(--link-hover);
 }
 
 /* The location photo keeps a landscape crop that fills its column. */

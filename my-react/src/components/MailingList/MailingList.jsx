@@ -37,9 +37,9 @@ function MailingList() {
       </div>
       <div className="mailing-links">
         <nav className="footer-links" aria-label="Footer links">
-          <a href="#mission">About ToKa Fitness</a>
-          <a href="#membership">Membership information</a>
-          <a href="#locations">Visit ToKa Fitness Central</a>
+          <a href="/mission">About ToKa Fitness</a>
+          <a href="/membership">Membership information</a>
+          <a href="/contact">Visit ToKa Fitness Central</a>
         </nav>
         <div className="social-links" aria-label="Social media">
           <a href="#contact" aria-label="Facebook">

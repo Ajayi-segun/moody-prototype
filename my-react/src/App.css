@@ -103,6 +103,37 @@
   padding: clamp(2rem, 5vw, 4rem) max(5vw, 1.25rem);
 }
 
+/* Standalone destinations share a readable content width and page rhythm. */
+.standalone-page {
+  min-height: 55vh;
+  padding: clamp(2.5rem, 6vw, 5rem) max(5vw, 1.25rem);
+}
+
+.standalone-page > h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.05;
+}
+
+.page-intro {
+  max-width: 720px;
+  color: var(--slate);
+}
+
+.mission-page .testimonials-band {
+  margin-top: 2rem;
+}
+
+.contact-page .locations-panel {
+  margin-top: 2rem;
+}
+
+.not-found-page a {
+  color: var(--charcoal);
+  font-weight: 700;
+  text-underline-offset: 0.2em;
+}
+
 /* Shared responsive rules collapse page-level content at tablet width. */
 @media (max-width: 900px) {
   .hero-panel {

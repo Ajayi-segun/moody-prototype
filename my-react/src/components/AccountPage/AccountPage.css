@@ -1,0 +1,129 @@
+.account-page {
+  width: min(100% - 2.5rem, 560px);
+  min-height: 55vh;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 7vw, 5rem) 0;
+}
+
+.account-page h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.05;
+}
+
+.account-intro {
+  margin-bottom: 1.5rem;
+  color: var(--slate);
+}
+
+.account-tabs {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.account-tabs a {
+  padding: 0.5rem 0;
+  border-bottom: 3px solid transparent;
+  color: var(--charcoal);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.account-tabs a[aria-current="page"] {
+  border-color: var(--orange);
+}
+
+.account-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.account-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--charcoal);
+  font-weight: 700;
+}
+
+.account-form input {
+  min-height: 48px;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  color: var(--charcoal);
+  background: var(--off-white);
+}
+
+.account-password-control {
+  display: flex;
+  width: 100%;
+}
+
+.account-password-control input {
+  min-width: 0;
+  flex: 1;
+}
+
+.account-password-toggle {
+  min-width: 4.25rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-left: 0;
+  color: var(--charcoal);
+  background: var(--surface-grey);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.account-help {
+  color: var(--slate);
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.account-submit {
+  min-height: 48px;
+  justify-self: start;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid var(--charcoal);
+  color: var(--off-white);
+  background: var(--charcoal);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.account-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.account-text-button {
+  margin-top: 1rem;
+  padding: 0;
+  border: 0;
+  color: var(--charcoal);
+  background: transparent;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.account-feedback,
+.account-setup,
+.account-error {
+  margin: 1rem 0 0;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.account-error {
+  border-color: #a32626;
+  color: #a32626;
+}

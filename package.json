@@ -1,0 +1,9 @@
+{
+  "name": "moody-prototype",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix my-react run dev --",
+    "build": "npm --prefix my-react run build",
+    "lint": "npm --prefix my-react run lint"
+  }
+}
