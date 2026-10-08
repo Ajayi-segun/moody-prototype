@@ -4,7 +4,7 @@
  */
 import './Specials.css'
 
-const fitnessImage = 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=80'
+const workoutPhoto = 'https://images.unsplash.com/photo-1579758629938-03607ccdbaba?auto=format&fit=crop&w=800&q=80'
 
 function Specials() {
   return (
@@ -21,8 +21,8 @@ function Specials() {
       <figure className="image-figure image-square">
         <img
           className="image-content"
-          src={fitnessImage}
-          alt="A fit person training in the gym with a focus on strength and wellness."
+          src={workoutPhoto}
+          alt="A gym member doing a strength workout."
         />
       </figure>
     </aside>

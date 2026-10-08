@@ -1,33 +1,67 @@
 # ToKa Fitness
 
-ToKa Fitness is a React and Vite website with Supabase email/password accounts.
-Supabase stores registered users and their name metadata, keeps sign-in sessions
-available across devices, and sends account verification and password reset
-emails.
+ToKa Fitness is a React/Vite website with a FastAPI account backend. The API
+stores member profiles in SQLite, hashes passwords, issues HttpOnly session
+cookies, and sends verification and password-reset emails through Brevo's
+transactional email API. The
+account flow does not use Supabase.
 
-## Configure Supabase
+## Run locally on Windows
 
-1. Create a project at [supabase.com](https://supabase.com/).
-2. In the Supabase project's API settings, copy the project URL and the
-   publishable key (or legacy `anon` key). Never put a `service_role` key in a
-   frontend app.
-3. Copy `.env.example` to `.env` in this directory and set
-   `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Restart Vite after changing
-   environment variables.
-4. In Supabase Authentication settings, enable email confirmation. Set the site
-   URL to the deployed site's origin and add the local and deployed account
-   callback URLs (for example, `http://localhost:5173/account` and
-   `https://your-domain.example/account`) to the redirect allow list.
-5. For reliable delivery to real users, configure a custom SMTP provider in
-   Supabase's authentication email settings. Supabase's built-in sender is
-   intended for testing and has delivery/recipient limits.
-6. Set the same two `VITE_` values in the hosting provider's build environment
-   and deploy the `my-react` Vite app. Configure the host to serve `index.html`
-   for application routes such as `/register`, `/sign-in`, and `/account`.
+1. Install Python 3.11 or newer and Node.js.
+2. From this `my-react` directory, create a virtual environment and install the
+   API requirements:
 
-The registration form creates the user in Supabase Auth and stores the provided
-name in that user's metadata. Supabase sends the verification email; password
-reset emails are handled by the same configured email provider. No account data
-is stored only in browser local storage. Without the project settings, the
-account page reports that configuration is missing and does not simulate a
-successful sign-up.
+   ```powershell
+   py -m venv backend\.venv
+   backend\.venv\Scripts\python -m pip install -r backend\requirements.txt
+   ```
+
+3. Create a Brevo account, verify the sender address you want ToKa Fitness to
+   send from, and create a transactional API key. Copy
+   `backend\.env.example` to `backend\.env`; set `TOKA_BREVO_API_KEY` and
+   `TOKA_EMAIL_FROM` to the key and verified sender address. These are
+   server-only settings; never put the API key in a Vite `VITE_` variable or
+   commit `backend\.env`.
+4. Leave the local frontend and API URLs as supplied for a local run.
+5. Start the FastAPI server from this directory:
+
+   ```powershell
+   backend\.venv\Scripts\python -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000
+   ```
+
+6. In a second terminal at this directory, install frontend packages if
+   needed and start Vite:
+
+   ```powershell
+   npm install
+   npm run dev
+   ```
+
+7. Open `http://localhost:5173/register`. Check
+   `http://127.0.0.1:8000/api/health`; its `email` value must be `configured`.
+   Register using an inbox you can access, open the ToKa Fitness email, and
+   confirm its link.
+
+## Email providers and deployment
+
+Verify the sender address/domain in Brevo before testing real delivery. The app
+does not send email if the API key is missing or Brevo rejects the request:
+registration returns an error instead of reporting false success.
+
+For deployment, run FastAPI and React behind HTTPS on the same origin (route
+`/api/*` to FastAPI and the remaining paths to the Vite build). Set
+`TOKA_FRONTEND_URL`, `TOKA_PUBLIC_API_URL`, and `TOKA_ALLOWED_ORIGINS` to the
+deployed HTTPS origin, set `TOKA_COOKIE_SECURE=true`, and provide the Brevo API
+key and verified sender as private server environment variables. Persist the SQLite database file or
+replace it with a managed database before scaling to multiple API instances.
+
+The registration form saves name, phone, date of birth, address, city, postcode,
+and membership interest. Registration is limited to people aged 14 or older.
+The homepage includes a Make It Count workout interval timer with one-, five-,
+ten-, and twenty-minute presets, pause/resume, and reset controls.
+
+The Training page plays the included CC BY 3.0 exercise demonstration clips
+locally as browser-friendly MP4 files. Original WebM downloads are kept beside
+the converted copies. Creator, source, licence, and conversion credits are
+listed in the page.

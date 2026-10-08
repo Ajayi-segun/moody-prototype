@@ -63,6 +63,65 @@
   color: var(--slate);
 }
 
+.workout-timer h3 {
+  margin-bottom: 0.45rem;
+}
+
+.workout-timer > p:first-of-type {
+  min-height: 3em;
+}
+
+.timer-display {
+  margin: 1rem 0;
+  color: var(--charcoal);
+  font-size: clamp(2.75rem, 5vw, 4rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+}
+
+.timer-presets,
+.timer-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.timer-preset,
+.timer-start,
+.timer-reset {
+  min-height: 42px;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--charcoal);
+  color: var(--charcoal);
+  background: var(--off-white);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.timer-preset[aria-pressed="true"],
+.timer-start {
+  color: var(--off-white);
+  background: var(--charcoal);
+}
+
+.timer-preset:disabled,
+.timer-reset:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.timer-controls {
+  margin-top: 0.75rem;
+}
+
+.timer-status {
+  min-height: 1.5em;
+  margin-top: 0.85rem;
+}
+
 /* The FAQ area separates practical answers from planned member tools. */
 .faq-section {
   padding: clamp(2.5rem, 5vw, 4rem) max(5vw, 1.25rem);

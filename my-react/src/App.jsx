@@ -12,7 +12,8 @@ import Locations from './components/Locations/Locations.jsx'
 import MailingList from './components/MailingList/MailingList.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import AccountPage from './components/AccountPage/AccountPage.jsx'
-import { supabase } from './lib/supabase.js'
+import WorkoutLibrary from './components/WorkoutLibrary/WorkoutLibrary.jsx'
+import { apiRequest } from './lib/api.js'
 import './styles/global.css'
 import './App.css'
 
@@ -55,47 +56,44 @@ function saveDisplayPreferences(preferences) {
 function App() {
   const [displayPreferences, setDisplayPreferences] = useState(readDisplayPreferences)
   const [user, setUser] = useState(null)
-  const [authLoading, setAuthLoading] = useState(Boolean(supabase))
+  const [authLoading, setAuthLoading] = useState(true)
   const [authNotice, setAuthNotice] = useState('')
-  const [passwordRecovery, setPasswordRecovery] = useState(false)
+  const [authCheck, setAuthCheck] = useState(0)
 
   useEffect(() => {
-    if (!supabase) return undefined
-
     let active = true
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!active) return
-      setUser(session?.user ?? null)
-      if (event === 'PASSWORD_RECOVERY') setPasswordRecovery(true)
-      if (event === 'USER_UPDATED' || event === 'SIGNED_OUT') setPasswordRecovery(false)
-    })
-
-    supabase.auth.getSession()
-      .then(({ data, error }) => {
+    apiRequest('/auth/me')
+      .then(({ user: currentUser }) => {
         if (!active) return
-        if (error) {
-          setAuthNotice(`Could not restore your sign-in: ${error.message}`)
-        } else {
-          setUser(data.session?.user ?? null)
-        }
-        setAuthLoading(false)
+        setUser(currentUser)
       })
       .catch((error) => {
         if (!active) return
-        setAuthNotice(`Could not restore your sign-in: ${error.message || 'An unexpected error occurred.'}`)
-        setAuthLoading(false)
+        setAuthNotice(error.message)
+      })
+      .finally(() => {
+        if (active) setAuthLoading(false)
       })
 
     return () => {
       active = false
-      subscription.unsubscribe()
     }
-  }, [])
+  }, [authCheck])
 
   async function signOut() {
-    if (!supabase) return
-    const { error } = await supabase.auth.signOut()
-    setAuthNotice(error ? `Could not sign out: ${error.message}` : 'You are signed out.')
+    try {
+      const result = await apiRequest('/auth/logout', { method: 'POST' })
+      setUser(null)
+      setAuthNotice(result.message)
+    } catch (error) {
+      setAuthNotice(`Could not sign out: ${error.message}`)
+    }
+  }
+
+  function retryAuthConnection() {
+    setAuthNotice('')
+    setAuthLoading(true)
+    setAuthCheck((current) => current + 1)
   }
 
   function changeDisplayPreference(preference) {
@@ -137,7 +135,7 @@ function App() {
           </section>
         )
       case '/training':
-        return <ArticleGrid />
+        return <WorkoutLibrary />
       case '/membership':
         return (
           <section className="standalone-page" aria-labelledby="page-heading">
@@ -169,9 +167,8 @@ function App() {
           <AccountPage
             initialMode={pagePath === '/register' ? 'register' : 'sign-in'}
             user={user}
-            passwordRecovery={passwordRecovery}
+            onSignedIn={setUser}
             onPasswordUpdated={() => {
-              setPasswordRecovery(false)
               setAuthNotice('Your password has been updated.')
             }}
             loading={authLoading}
@@ -200,6 +197,7 @@ function App() {
         preferenceNotice={displayPreferences.notice}
         user={user}
         authNotice={authNotice}
+        onRetryAuth={retryAuthConnection}
         onSignOut={signOut}
         onDarkModeChange={() => changeDisplayPreference('darkMode')}
         onHighContrastChange={() => changeDisplayPreference('highContrast')}
@@ -217,7 +215,7 @@ function MemberTools() {
       <div className="section-shell">
         <h2 id="member-tools-heading">Member tools</h2>
         <p className="member-tools-intro">
-          These planned digital features are part of our commitment to making healthy routines easier to manage.
+          Practical tools to help you build healthy routines, one session at a time.
         </p>
         <div className="tools-grid">
           <article className="tool-item">
@@ -229,8 +227,7 @@ function MemberTools() {
             <p>A future wellbeing tool will offer general guidance alongside professional advice.</p>
           </article>
           <article className="tool-item">
-            <h3>Workout timer</h3>
-            <p>A simple training timer is planned as a member feature.</p>
+            <WorkoutTimer />
           </article>
           <article className="tool-item">
             <h3>Membership and payments</h3>
@@ -239,6 +236,99 @@ function MemberTools() {
         </div>
       </div>
     </section>
+  )
+}
+
+function WorkoutTimer() {
+  const [duration, setDuration] = useState(5)
+  const [remainingSeconds, setRemainingSeconds] = useState(5 * 60)
+  const [endTime, setEndTime] = useState(null)
+  const [completed, setCompleted] = useState(false)
+
+  useEffect(() => {
+    if (endTime === null) return undefined
+
+    function updateRemainingTime() {
+      const nextRemaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000))
+      setRemainingSeconds(nextRemaining)
+      if (nextRemaining === 0) {
+        setEndTime(null)
+        setCompleted(true)
+      }
+    }
+
+    updateRemainingTime()
+    const intervalId = window.setInterval(updateRemainingTime, 250)
+    return () => window.clearInterval(intervalId)
+  }, [endTime])
+
+  const minutes = Math.floor(remainingSeconds / 60)
+  const seconds = remainingSeconds % 60
+  const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+  const isRunning = endTime !== null
+
+  function chooseDuration(nextDuration) {
+    if (isRunning) return
+    setDuration(nextDuration)
+    setRemainingSeconds(nextDuration * 60)
+    setCompleted(false)
+  }
+
+  function toggleTimer() {
+    if (isRunning) {
+      setRemainingSeconds(Math.max(0, Math.ceil((endTime - Date.now()) / 1000)))
+      setEndTime(null)
+      return
+    }
+    if (remainingSeconds === 0) {
+      setRemainingSeconds(duration * 60)
+      setCompleted(false)
+      setEndTime(Date.now() + duration * 60 * 1000)
+      return
+    }
+    setCompleted(false)
+    setEndTime(Date.now() + remainingSeconds * 1000)
+  }
+
+  function resetTimer() {
+    setEndTime(null)
+    setRemainingSeconds(duration * 60)
+    setCompleted(false)
+  }
+
+  return (
+    <div className="workout-timer" aria-labelledby="workout-timer-heading">
+      <h3 id="workout-timer-heading">Make It Count</h3>
+      <p>Set a focused workout interval and make every minute count.</p>
+      <div className="timer-display" role="timer" aria-label={`${minutes} minutes and ${seconds} seconds remaining`}>
+        {formattedTime}
+      </div>
+      <div className="timer-presets" role="group" aria-label="Workout length">
+        {[1, 5, 10, 20].map((preset) => (
+          <button
+            key={preset}
+            type="button"
+            className="timer-preset"
+            aria-pressed={duration === preset}
+            disabled={isRunning}
+            onClick={() => chooseDuration(preset)}
+          >
+            {preset} min
+          </button>
+        ))}
+      </div>
+      <div className="timer-controls">
+        <button className="timer-start" type="button" onClick={toggleTimer}>
+          {isRunning ? 'Pause timer' : remainingSeconds === duration * 60 ? 'Start timer' : 'Resume timer'}
+        </button>
+        <button className="timer-reset" type="button" onClick={resetTimer} disabled={!isRunning && remainingSeconds === duration * 60}>
+          Reset
+        </button>
+      </div>
+      <p className="timer-status" role="status" aria-live="polite">
+        {completed ? 'Interval complete. Great work — take a moment to recover.' : isRunning ? 'Timer running. You’ve got this.' : 'Ready when you are.'}
+      </p>
+    </div>
   )
 }
 

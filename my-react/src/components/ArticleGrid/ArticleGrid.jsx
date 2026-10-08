@@ -3,39 +3,35 @@
  * The cards give visitors clear routes into practical training and wellbeing advice.
  */
 import { useState } from 'react'
-import trainingPhoto from '../../assets/training-advice.jpg'
-import healthyLivingPhoto from '../../assets/healthy-living.jpg'
-import memberStoriesPhoto from '../../assets/member-stories.jpg'
-import workoutLibraryPhoto from '../../assets/workout-library.jpg'
 import './ArticleGrid.css'
 
 const articles = [
   {
     title: 'Training Advice',
     category: 'Training',
-    image: trainingPhoto,
-    imageDescription: 'Strength-training equipment arranged in a bright gym.',
+    image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1000&q=80',
+    imageDescription: 'A gym member lifting dumbbells during strength training.',
     description: 'Build strength with clear, beginner-friendly training tips. Find a pace that feels right for you.',
   },
   {
     title: 'Healthy Living',
     category: 'Wellbeing',
-    image: healthyLivingPhoto,
-    imageDescription: 'A colourful healthy meal with greens, vegetables and egg.',
+    image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1000&q=80',
+    imageDescription: 'A colourful, balanced meal to support an active lifestyle.',
     description: 'Explore everyday ideas for food, rest and movement. Small, steady choices can support your wellbeing.',
   },
   {
     title: 'Member Stories',
     category: 'Stories',
-    image: memberStoriesPhoto,
-    imageDescription: 'A woman doing a floor exercise in a bright studio.',
+    image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1000&q=80',
+    imageDescription: 'A woman stretching on a mat during a workout.',
     description: 'Read how members make fitness work around busy schedules, new goals and different access needs.',
   },
   {
     title: 'Workout Library',
     category: 'Training',
-    image: workoutLibraryPhoto,
-    imageDescription: 'An athlete lifting a barbell during a strength workout.',
+    image: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?auto=format&fit=crop&w=1000&q=80',
+    imageDescription: 'A gym member training with free weights.',
     description: 'Browse a growing collection of guided sessions. Choose a workout to match your time and energy.',
   },
 ]

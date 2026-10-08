@@ -3,8 +3,9 @@
  * It helps visitors find the club and check when it is open.
  */
 import { useEffect, useState } from 'react'
-import centralGymPhoto from '../../assets/central-gym.jpg'
 import './Locations.css'
+
+const centralGymPhoto = 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80'
 
 const OPENING_HOURS = [
   { opensAt: 8, closesAt: 18 },

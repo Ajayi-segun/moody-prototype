@@ -47,13 +47,15 @@
   font-weight: 700;
 }
 
-.account-form input {
+.account-form input,
+.account-form select {
   min-height: 48px;
   padding: 0.65rem 0.75rem;
   border: 1px solid var(--line);
   border-radius: 0;
   color: var(--charcoal);
   background: var(--off-white);
+  font: inherit;
 }
 
 .account-password-control {

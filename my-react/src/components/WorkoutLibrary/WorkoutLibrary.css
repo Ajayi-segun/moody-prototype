@@ -1,0 +1,265 @@
+.workout-library {
+  width: min(100% - 2.5rem, 1180px);
+  min-height: 55vh;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 5rem) 0;
+}
+
+.workout-library-heading {
+  max-width: 760px;
+}
+
+.workout-library-heading h1 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  line-height: 1.05;
+}
+
+.workout-library-heading > p:last-child {
+  color: var(--slate);
+}
+
+.workout-preferences {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.75rem 0 1.25rem;
+}
+
+.workout-preferences label {
+  display: grid;
+  flex: 1 1 220px;
+  gap: 0.4rem;
+  max-width: 360px;
+  font-weight: 700;
+}
+
+.workout-preferences select {
+  min-height: 46px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line);
+  color: var(--charcoal);
+  background: var(--off-white);
+  font: inherit;
+}
+
+.workout-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.workout-tabs button,
+.lock-in-panel button {
+  min-height: 44px;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--charcoal);
+  color: var(--charcoal);
+  background: var(--off-white);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.workout-tabs button[aria-pressed="true"],
+.lock-in-panel button {
+  color: var(--off-white);
+  background: var(--charcoal);
+}
+
+.workout-focus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: var(--surface-grey);
+}
+
+.workout-focus h2,
+.workout-focus p {
+  margin-bottom: 0.4rem;
+}
+
+.workout-focus > div > p:last-child {
+  margin: 0;
+  color: var(--slate);
+}
+
+.workout-focus > p {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--slate);
+  font-weight: 700;
+}
+
+.demo-section {
+  margin: 1.5rem 0;
+}
+
+.demo-section > h2 {
+  margin-bottom: 0.8rem;
+  font-size: 1.5rem;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1rem;
+}
+
+.demo-card {
+  min-width: 0;
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  background: var(--off-white);
+}
+
+.demo-card h3 {
+  margin-bottom: 0.7rem;
+}
+
+.demo-note {
+  margin: 0.65rem 0 0;
+  color: var(--slate);
+  font-size: 0.9rem;
+}
+
+.exercise-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #111;
+  object-fit: contain;
+}
+
+.exercise-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.exercise-card {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: var(--off-white);
+}
+
+.exercise-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.exercise-number {
+  color: var(--orange);
+  font-weight: 800;
+}
+
+.exercise-equipment {
+  color: var(--slate);
+  font-size: 0.85rem;
+  text-align: right;
+}
+
+.exercise-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.exercise-card > p {
+  min-height: 5em;
+  color: var(--slate);
+}
+
+.exercise-plan {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  margin: 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.exercise-plan div {
+  min-width: 0;
+}
+
+.exercise-plan dt {
+  color: var(--slate);
+  font-size: 0.8rem;
+}
+
+.exercise-plan dd {
+  margin: 0.15rem 0 0;
+  font-weight: 700;
+}
+
+.lock-in-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  background: var(--surface-grey);
+}
+
+.lock-in-panel h2 {
+  margin-bottom: 0.45rem;
+  font-size: 1.4rem;
+}
+
+.lock-in-panel p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--slate);
+}
+
+.lock-in-panel button {
+  flex: 0 0 auto;
+}
+
+.workout-safety {
+  margin: 1rem 0 0;
+  color: var(--slate);
+  font-size: 0.9rem;
+}
+
+.workout-video-note {
+  margin: 0.5rem 0 0;
+  color: var(--slate);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 800px) {
+  .exercise-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .workout-focus,
+  .lock-in-panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .workout-focus > p {
+    flex: initial;
+  }
+
+  .exercise-list {
+    grid-template-columns: 1fr;
+  }
+
+  .exercise-card > p {
+    min-height: 0;
+  }
+}

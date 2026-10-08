@@ -11,6 +11,7 @@ function Header({
   user,
   authNotice,
   onSignOut,
+  onRetryAuth,
   onDarkModeChange,
   onHighContrastChange,
 }) {
@@ -59,7 +60,12 @@ function Header({
         </button>
       </div>
       <p className="preference-feedback" role="status">{preferenceNotice}</p>
-      {authNotice && <p className="account-header-notice" role="status">{authNotice}</p>}
+      {authNotice && (
+        <div className="account-header-notice" role="status">
+          <span>{authNotice}</span>
+          <button type="button" onClick={onRetryAuth}>Try again</button>
+        </div>
+      )}
     </header>
   )
 }

@@ -186,9 +186,22 @@
 
 .account-header-notice {
   flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
   margin: 0;
   color: var(--slate);
   font-size: 0.9rem;
+}
+
+.account-header-notice button {
+  border: 1px solid currentColor;
+  border-radius: 0.35rem;
+  padding: 0.25rem 0.55rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
 }
 
 /* Each preference label keeps its text aligned with its native checkbox. */
