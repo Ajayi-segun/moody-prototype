@@ -13,11 +13,14 @@ import MailingList from './components/MailingList/MailingList.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import AccountPage from './components/AccountPage/AccountPage.jsx'
 import WorkoutLibrary from './components/WorkoutLibrary/WorkoutLibrary.jsx'
-import { apiRequest } from './lib/api.js'
+import { getMemberProfile, signOutMember } from './lib/account.js'
+import { getSupabaseClient } from './lib/supabase.js'
 import './styles/global.css'
 import './App.css'
 
-const pagePath = window.location.pathname.replace(/\/+$/, '') || '/'
+function currentPagePath() {
+  return window.location.pathname.replace(/\/+$/, '') || '/'
+}
 
 function readDisplayPreferences() {
   try {
@@ -54,37 +57,116 @@ function saveDisplayPreferences(preferences) {
 }
 
 function App() {
+  const [pagePath, setPagePath] = useState(currentPagePath)
   const [displayPreferences, setDisplayPreferences] = useState(readDisplayPreferences)
   const [user, setUser] = useState(null)
-  const [authLoading, setAuthLoading] = useState(true)
+  const [authLoading, setAuthLoading] = useState(pagePath !== '/register')
   const [authNotice, setAuthNotice] = useState('')
   const [authCheck, setAuthCheck] = useState(0)
+  const [passwordRecovery, setPasswordRecovery] = useState(
+    () => new URLSearchParams(window.location.hash.slice(1)).get('type') === 'recovery',
+  )
+
+  useEffect(() => {
+    function handlePopState() {
+      const nextPath = currentPagePath()
+      setPagePath(nextPath)
+      if (nextPath === '/register') setAuthLoading(false)
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
 
   useEffect(() => {
     let active = true
-    apiRequest('/auth/me')
-      .then(({ user: currentUser }) => {
+    let subscription
+    let sessionVersion = 0
+
+    async function connectAuth() {
+      try {
+        const client = await getSupabaseClient()
         if (!active) return
-        setUser(currentUser)
-      })
-      .catch((error) => {
+        const result = client.auth.onAuthStateChange((event, session) => {
+          if (event === 'PASSWORD_RECOVERY') setPasswordRecovery(true)
+          if (event === 'SIGNED_OUT') setPasswordRecovery(false)
+
+          const currentVersion = ++sessionVersion
+          Promise.resolve().then(async () => {
+            try {
+              const member = await getMemberProfile(session?.user ?? null)
+              if (!active || currentVersion !== sessionVersion) return
+              setUser(member)
+              setAuthNotice('')
+            } catch (error) {
+              if (!active || currentVersion !== sessionVersion) return
+              setUser(null)
+              setAuthNotice(error.message)
+            } finally {
+              if (active && currentVersion === sessionVersion) setAuthLoading(false)
+            }
+          })
+        })
+        subscription = result.data.subscription
+      } catch (error) {
         if (!active) return
         setAuthNotice(error.message)
-      })
-      .finally(() => {
-        if (active) setAuthLoading(false)
-      })
+        setAuthLoading(false)
+      }
+    }
+    connectAuth()
 
     return () => {
       active = false
+      subscription?.unsubscribe()
     }
   }, [authCheck])
 
+  function handleInternalNavigation(event) {
+    const link = event.target.closest?.('a[href]')
+    if (
+      !link
+      || event.defaultPrevented
+      || event.button !== 0
+      || event.metaKey
+      || event.ctrlKey
+      || event.shiftKey
+      || event.altKey
+      || link.target
+      || link.hasAttribute('download')
+    ) {
+      return
+    }
+
+    const destination = new URL(link.href, window.location.href)
+    if (destination.origin !== window.location.origin) return
+
+    const isHashOnlyNavigation = (
+      destination.pathname === window.location.pathname
+      && destination.search === window.location.search
+    )
+    if (isHashOnlyNavigation) return
+
+    event.preventDefault()
+    window.history.pushState({}, '', destination)
+    const nextPath = currentPagePath()
+    setPagePath(nextPath)
+    if (nextPath === '/register') setAuthLoading(false)
+
+    if (destination.hash) {
+      window.setTimeout(() => {
+        document.getElementById(decodeURIComponent(destination.hash.slice(1)))?.scrollIntoView()
+      }, 0)
+    } else {
+      window.scrollTo({ top: 0 })
+    }
+  }
+
   async function signOut() {
     try {
-      const result = await apiRequest('/auth/logout', { method: 'POST' })
+      await signOutMember()
       setUser(null)
-      setAuthNotice(result.message)
+      setAuthNotice('You are signed out.')
     } catch (error) {
       setAuthNotice(`Could not sign out: ${error.message}`)
     }
@@ -165,10 +247,14 @@ function App() {
       case '/account':
         return (
           <AccountPage
-            initialMode={pagePath === '/register' ? 'register' : 'sign-in'}
+            key={`${pagePath}-${passwordRecovery}`}
+            initialMode={passwordRecovery
+              ? 'reset-password'
+              : pagePath === '/register' ? 'register' : 'sign-in'}
             user={user}
             onSignedIn={setUser}
             onPasswordUpdated={() => {
+              setPasswordRecovery(false)
               setAuthNotice('Your password has been updated.')
             }}
             loading={authLoading}
@@ -189,7 +275,10 @@ function App() {
   }
 
   return (
-    <div className={`site-shell${displayPreferences.darkMode ? ' dark-mode' : ''}${displayPreferences.highContrast ? ' high-contrast' : ''}`}>
+    <div
+      className={`site-shell${displayPreferences.darkMode ? ' dark-mode' : ''}${displayPreferences.highContrast ? ' high-contrast' : ''}`}
+      onClick={handleInternalNavigation}
+    >
       <a className="skip-link" href="#main-content">Skip to content</a>
       <Header
         darkMode={displayPreferences.darkMode}

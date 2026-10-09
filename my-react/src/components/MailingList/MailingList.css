@@ -35,7 +35,7 @@
   font: inherit;
 }
 
-/* The join button remains a static, high-contrast mockup control. */
+/* The join button remains a high-contrast call to action while submitting. */
 .mailing-form button {
   min-width: 90px;
   min-height: 46px;
@@ -59,6 +59,15 @@
   transition: background 0.3s ease-in-out;
   border: 1px solid var(--orange);
   color: rgb(211, 198, 174);
+}
+
+.mailing-form button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.mailing-error {
+  color: #ffd2c7;
 }
 
 /* Footer links appear as a vertical set of three muted lines. */

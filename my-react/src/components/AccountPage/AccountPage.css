@@ -16,6 +16,21 @@
   color: var(--slate);
 }
 
+.registration-draft-note {
+  margin: 0 0 1.25rem;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--orange);
+  background: var(--surface-grey);
+}
+
+.registration-draft-note p {
+  margin: 0;
+}
+
+.registration-draft-note .account-error {
+  margin-top: 0.5rem;
+}
+
 .account-tabs {
   display: flex;
   gap: 1.25rem;

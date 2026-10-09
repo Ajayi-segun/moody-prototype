@@ -1,18 +1,35 @@
 /*
  * This component invites visitors to receive ToKa Fitness updates by email.
- * Its demo form validates an address and confirms that nothing is submitted.
+ * Its form subscribes visitors to the ToKa Fitness mailing list.
  */
 import { useState } from 'react'
+import { apiRequest } from '../../lib/api.js'
 import './MailingList.css'
 
 function MailingList() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault()
-    setMessage(`Thanks! ${email} is valid, but this demo does not send or store your address.`)
-    setEmail('')
+    setMessage('')
+    setError('')
+    setIsSubmitting(true)
+
+    try {
+      const result = await apiRequest('/mailing-list', {
+        method: 'POST',
+        body: { email: email.trim().toLowerCase() },
+      })
+      setMessage(result.message)
+      setEmail('')
+    } catch (requestError) {
+      setError(requestError.message || 'Your subscription could not be completed. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -30,10 +47,14 @@ function MailingList() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
+            disabled={isSubmitting}
           />
-          <button type="submit">Join</button>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Joining…' : 'Join'}
+          </button>
         </form>
-        <p className="mailing-feedback" aria-live="polite">{message}</p>
+        <p className="mailing-feedback" role="status">{message}</p>
+        {error && <p className="mailing-feedback mailing-error" role="alert">{error}</p>}
       </div>
       <div className="mailing-links">
         <nav className="footer-links" aria-label="Footer links">

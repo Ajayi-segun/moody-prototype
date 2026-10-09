@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: toka-fitness
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: TOKA_BREVO_API_KEY
+        sync: false
+      - key: TOKA_SUPABASE_URL
+        sync: false
+      - key: TOKA_SUPABASE_SECRET_KEY
+        sync: false
+      - key: TOKA_SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: TOKA_EMAIL_FROM
+        sync: false
+      - key: TOKA_EMAIL_SENDER_NAME
+        value: ToKa Fitness
+      - key: TOKA_FRONTEND_URL
+        value: https://toka-fitness.onrender.com
+      - key: TOKA_ALLOWED_ORIGINS
+        value: https://toka-fitness.onrender.com

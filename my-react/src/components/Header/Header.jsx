@@ -4,6 +4,14 @@
  */
 import './Header.css'
 
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/mission', label: 'Our Mission' },
+  { href: '/training', label: 'Training' },
+  { href: '/membership', label: 'Membership' },
+  { href: '/contact', label: 'Contact' },
+]
+
 function Header({
   darkMode,
   highContrast,
@@ -15,6 +23,10 @@ function Header({
   onDarkModeChange,
   onHighContrastChange,
 }) {
+  const currentPath = typeof window === 'undefined'
+    ? '/'
+    : window.location.pathname.replace(/\/+$/, '') || '/'
+
   return (
     <header className="site-header" id="home">
       <a className="brand" href="/" aria-label="ToKa Fitness home">
@@ -22,11 +34,19 @@ function Header({
         <span className="brand-name">ToKa Fitness</span>
       </a>
       <nav className="main-nav" aria-label="Main navigation">
-        <a href="/">Home</a>
-        <a href="/mission">Our Mission</a>
-        <a href="/training">Training</a>
-        <a href="/membership">Membership</a>
-        <a href="/contact">Contact</a>
+        {navItems.map(({ href, label }) => {
+          const isCurrent = currentPath === href || (href === '/' && currentPath === '/home')
+          return (
+            <a
+              key={href}
+              href={href}
+              aria-current={isCurrent ? 'page' : undefined}
+              className={isCurrent ? 'main-nav-link active' : 'main-nav-link'}
+            >
+              {label}
+            </a>
+          )
+        })}
       </nav>
       <div className="account-controls">
         {user ? (
