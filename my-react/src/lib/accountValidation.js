@@ -21,8 +21,8 @@ export function validateEmail(value) {
 
 export function getStrongPasswordErrors(value) {
   const errors = []
-  if (value.length < 8) errors.push('Use at least 8 characters.')
-  if (value.length > 13) errors.push('Use no more than 13 characters.')
+  if (value.length < 12) errors.push('Use at least 12 characters.')
+  if (value.length > 128) errors.push('Use no more than 128 characters.')
   if (!/[a-z]/.test(value)) errors.push('Add at least one lowercase letter.')
   if (!/[A-Z]/.test(value)) errors.push('Add at least one uppercase letter.')
   if (!/[0-9]/.test(value)) errors.push('Add at least one number.')
@@ -125,5 +125,5 @@ export function validateRegistration({ fullName, email, phone, dateOfBirth, addr
   }
   if (password !== passwordConfirmation) errors.push('Password confirmation: the two passwords do not match.')
   if (phoneError) errors.push(`Phone number: ${phoneError}`)
-  return errors
+  return errors.join(' ')
 }

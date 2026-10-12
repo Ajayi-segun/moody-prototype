@@ -33,12 +33,15 @@ test('rejects malformed email addresses', () => {
 })
 
 test('requires long passwords with mixed character types', () => {
-  assert.notEqual(validateStrongPassword('short'), '')
+  assert.notEqual(validateStrongPassword('Aa1!short'), '')
   assert.notEqual(validateStrongPassword('alllowercasepassword'), '')
   assert.notEqual(validateStrongPassword('nouppercase123!'), '')
   assert.notEqual(validateStrongPassword('NoNumber!AndSymbols'), '')
   assert.notEqual(validateStrongPassword('NoSymbolPassword123'), '')
   assert.equal(validateStrongPassword('Strong!Passphrase42'), '')
+  assert.equal(validateStrongPassword('Strong!Pass1'), '')
+  assert.equal(validateStrongPassword('Aa1!'.repeat(32)), '')
+  assert.notEqual(validateStrongPassword('Aa1!'.repeat(33)), '')
 })
 
 test('rejects malformed phone numbers, addresses, and postcodes', () => {

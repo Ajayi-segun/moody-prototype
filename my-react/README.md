@@ -24,9 +24,12 @@ subscriptions, and FastAPI/Brevo for mailing-list welcome emails.
    and `TOKA_BREVO_API_KEY` private in the FastAPI environment.
 4. In Supabase Auth, enable email confirmation and set the local Site URL to
    `http://localhost:5173`. Add `http://localhost:5173/account` to the allowed
-   redirect URLs. Configure Supabase Auth SMTP for dependable confirmation and
-   password-reset email delivery (Brevo SMTP credentials can be configured in
-   Supabase; its transactional API key is used by FastAPI for welcome email).
+   redirect URLs. Configure and verify a real SMTP sender under Supabase
+   project's Auth email settings before testing registration or password
+   resets. Supabase sends the secure confirmation and reset links; the Brevo
+   transactional API key used by FastAPI for mailing-list welcome emails does
+   not configure Supabase Auth email delivery. Use Brevo's SMTP credentials in
+   Supabase if you want one verified sender for both services.
    Set Supabase Auth's password policy to at least 12 characters and require
    uppercase and lowercase letters, numbers, and symbols to match form
    validation.
