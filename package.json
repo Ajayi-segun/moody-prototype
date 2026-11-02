@@ -5,5 +5,11 @@
     "dev": "npm --prefix my-react run dev --",
     "build": "npm --prefix my-react run build",
     "lint": "npm --prefix my-react run lint"
+  },
+  "dependencies": {
+    "vite": "^8.3.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2"
   }
 }

@@ -13,8 +13,7 @@ import MailingList from './components/MailingList/MailingList.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import AccountPage from './components/AccountPage/AccountPage.jsx'
 import WorkoutLibrary from './components/WorkoutLibrary/WorkoutLibrary.jsx'
-import { getMemberProfile, signOutMember } from './lib/account.js'
-import { getSupabaseClient } from './lib/supabase.js'
+import { getCurrentMember, signOutMember } from './lib/account.js'
 import './styles/global.css'
 import './App.css'
 
@@ -78,49 +77,37 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
 
+  
   useEffect(() => {
     let active = true
-    let subscription
-    let sessionVersion = 0
 
     async function connectAuth() {
       try {
-        const client = await getSupabaseClient()
-        if (!active) return
-        const result = client.auth.onAuthStateChange((event, session) => {
-          if (event === 'PASSWORD_RECOVERY') setPasswordRecovery(true)
-          if (event === 'SIGNED_OUT') setPasswordRecovery(false)
+        const member = await getCurrentMember()
 
-          const currentVersion = ++sessionVersion
-          Promise.resolve().then(async () => {
-            try {
-              const member = await getMemberProfile(session?.user ?? null)
-              if (!active || currentVersion !== sessionVersion) return
-              setUser(member)
-              setAuthNotice('')
-            } catch (error) {
-              if (!active || currentVersion !== sessionVersion) return
-              setUser(null)
-              setAuthNotice(error.message)
-            } finally {
-              if (active && currentVersion === sessionVersion) setAuthLoading(false)
-            }
-          })
-        })
-        subscription = result.data.subscription
+        if (!active) return
+
+        setUser(member)
+        setAuthNotice('')
       } catch (error) {
         if (!active) return
+
+        setUser(null)
         setAuthNotice(error.message)
-        setAuthLoading(false)
+      } finally {
+        if (active) {
+          setAuthLoading(false)
+        }
       }
     }
+
     connectAuth()
 
     return () => {
       active = false
-      subscription?.unsubscribe()
     }
   }, [authCheck])
+
 
   function handleInternalNavigation(event) {
     const link = event.target.closest?.('a[href]')
