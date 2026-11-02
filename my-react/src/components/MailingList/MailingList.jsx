@@ -1,32 +1,31 @@
-/*
- * This component invites visitors to receive ToKa Fitness updates by email.
- * Its form subscribes visitors to the ToKa Fitness mailing list.
- */
 import { useState } from 'react'
 import { apiRequest } from '../../lib/api.js'
 import './MailingList.css'
 
 function MailingList() {
   const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
+  const [consent, setConsent] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [feedback, setFeedback] = useState('')
+  const [hasError, setHasError] = useState(false)
 
   async function handleSubmit(event) {
     event.preventDefault()
-    setMessage('')
-    setError('')
+    setFeedback('')
+    setHasError(false)
     setIsSubmitting(true)
 
     try {
       const result = await apiRequest('/mailing-list', {
         method: 'POST',
-        body: { email: email.trim().toLowerCase() },
+        body: { email, consent },
       })
-      setMessage(result.message)
+      setFeedback(result.message)
       setEmail('')
-    } catch (requestError) {
-      setError(requestError.message || 'Your subscription could not be completed. Please try again.')
+      setConsent(false)
+    } catch (error) {
+      setHasError(true)
+      setFeedback(error.message)
     } finally {
       setIsSubmitting(false)
     }
@@ -35,26 +34,37 @@ function MailingList() {
   return (
     <section className="mailing-list" id="contact" aria-labelledby="mailing-heading">
       <div className="mailing-main">
-        <h2 id="mailing-heading">Join our mailing list</h2>
+        <h2 id="mailing-heading">Good things, straight to your inbox.</h2>
+        <p>Training tips, club news, and a little motivation. No spam, just the good stuff.</p>
         <form className="mailing-form" onSubmit={handleSubmit}>
-          <label className="visually-hidden" htmlFor="mailing-email">Email address</label>
+          <label className="visually-hidden" htmlFor="mailing-email">Your email address</label>
           <input
             id="mailing-email"
-            name="email"
             type="email"
+            name="email"
             autoComplete="email"
             placeholder="Your email address"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
+            maxLength={254}
             required
-            disabled={isSubmitting}
           />
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Joining…' : 'Join'}
+          <button type="submit" disabled={isSubmitting || !consent}>
+            {isSubmitting ? 'Joining…' : 'Join the list'}
           </button>
+          <label className="mailing-consent">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={(event) => setConsent(event.target.checked)}
+              required
+            />
+            I agree to receive email updates from ToKa Fitness. I can unsubscribe any time.
+          </label>
         </form>
-        <p className="mailing-feedback" role="status">{message}</p>
-        {error && <p className="mailing-feedback mailing-error" role="alert">{error}</p>}
+        <p className={`mailing-feedback${hasError ? ' is-error' : ''}`} role="status" aria-live="polite">
+          {feedback}
+        </p>
       </div>
       <div className="mailing-links">
         <nav className="footer-links" aria-label="Footer links">

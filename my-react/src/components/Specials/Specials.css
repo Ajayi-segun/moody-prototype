@@ -8,6 +8,7 @@
 
 /* The updates heading is smaller than the main mission heading. */
 .monthly-updates h2 {
+  max-width: 20ch;
   margin-bottom: 0.6rem;
   color: var(--charcoal);
   font-size: 1.65rem;
@@ -16,7 +17,42 @@
 /* The monthly update list uses a compact readable indent. */
 .monthly-updates ul {
   margin: 0;
-  padding-left: 1.25rem;
+  padding-left: 1.1rem;
+  color: var(--slate);
+}
+
+.monthly-updates li {
+  padding-left: 0.15rem;
+}
+
+.monthly-updates li + li {
+  margin-top: 0.25rem;
+}
+
+.updates-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--blue);
+  border-radius: 999px;
+  color: var(--off-white);
+  background: var(--blue);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.updates-action:hover {
+  transform: translateY(-2px);
+  background: var(--link-hover);
+}
+
+.updates-action:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 3px;
 }
 
 /* Figures have no default gap around locally bundled photography. */

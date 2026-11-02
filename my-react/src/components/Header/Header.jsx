@@ -8,6 +8,7 @@ const navItems = [
   { href: '/', label: 'Home' },
   { href: '/mission', label: 'Our Mission' },
   { href: '/training', label: 'Training' },
+  { href: '/premium-training', label: 'Progress' },
   { href: '/membership', label: 'Membership' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -15,13 +16,13 @@ const navItems = [
 function Header({
   darkMode,
   highContrast,
+  colorVariant,
   preferenceNotice,
   user,
-  authNotice,
   onSignOut,
-  onRetryAuth,
   onDarkModeChange,
   onHighContrastChange,
+  onColorVariantChange,
 }) {
   const currentPath = typeof window === 'undefined'
     ? '/'
@@ -34,7 +35,7 @@ function Header({
         <span className="brand-name">ToKa Fitness</span>
       </a>
       <nav className="main-nav" aria-label="Main navigation">
-        {navItems.map(({ href, label }) => {
+        {[...navItems, { href: '/chat', label: 'Community' }].map(({ href, label }) => {
           const isCurrent = currentPath === href || (href === '/' && currentPath === '/home')
           return (
             <a
@@ -78,14 +79,16 @@ function Header({
         >
           {highContrast ? 'Standard contrast' : 'High contrast'}
         </button>
+        <button
+          className="appearance-button"
+          type="button"
+          aria-pressed={colorVariant}
+          onClick={onColorVariantChange}
+        >
+          {colorVariant ? 'Standard colours' : 'Warm reading colours'}
+        </button>
       </div>
       <p className="preference-feedback" role="status">{preferenceNotice}</p>
-      {authNotice && (
-        <div className="account-header-notice" role="status">
-          <span>{authNotice}</span>
-          <button type="button" onClick={onRetryAuth}>Try again</button>
-        </div>
-      )}
     </header>
   )
 }

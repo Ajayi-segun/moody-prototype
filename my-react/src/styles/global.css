@@ -1,56 +1,107 @@
 /* The root palette and base type settings keep the brand consistent. */
 :root {
-  --blue: #1a5f7a;
-  --charcoal: #1a1a1a;
-  --off-white: #f5f5f0;
-  --orange: #e97e5e;
-  --slate: #6b6b6b;
-  --surface-grey: #e9e9e5;
-  --lilac: #eee9ef;
-  --line: #c8c8c2;
-  --focus-color: #1a1a1a;
-  --link-hover: #79400f;
-  --brand-mark-background: #e97e5e;
-  --brand-mark-text: #1a1a1a;
-  --mailing-background: #1a1a1a;
-  --mailing-foreground: #f5f5f0;
-  --mailing-control-background: #f5f5f0;
-  --mailing-control-text: #1a1a1a;
-  --mailing-button-background: #000;
-  --mailing-button-text: #f5f5f0;
-  --mailing-link: #d0d0ca;
-  --font-body: "Segoe UI", Arial, sans-serif;
-  --font-display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  --blue: #174e43;
+  --charcoal: #17241e;
+  --off-white: #f7f8f2;
+  --orange: #ff765e;
+  --slate: #55655e;
+  --surface-grey: #eef0e9;
+  --lilac: #e4ede6;
+  --line: #d9dfd7;
+  --focus-color: #d9ff63;
+  --link-hover: #135c46;
+  --brand-mark-background: #d9ff63;
+  --brand-mark-text: #17241e;
+  --mailing-background: #17241e;
+  --mailing-foreground: #f7f8f2;
+  --mailing-control-background: #fff;
+  --mailing-control-text: #17241e;
+  --mailing-button-background: #d9ff63;
+  --mailing-button-text: #17241e;
+  --mailing-link: #e5ecdf;
+  --font-body: "Aptos", "Segoe UI", Arial, sans-serif;
+  --font-display: "Aptos Display", "Segoe UI", Arial, sans-serif;
+  --radius-sm: 0.7rem;
+  --radius-md: 1.15rem;
+  --radius-lg: 1.7rem;
+  --shadow-card: 0 12px 30px rgb(23 36 30 / 6%);
+  --shadow-lift: 0 20px 46px rgb(23 36 30 / 12%);
   color-scheme: light;
   color: var(--charcoal);
   background: var(--off-white);
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.65;
+  line-height: 1.6;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
 
 /* The dark theme updates the complete page palette without changing content. */
 :root:has(#root > .site-shell.dark-mode) {
-  --charcoal: #f5f5f0;
-  --off-white: #171717;
-  --orange: #ff895c;
-  --slate: #d0d0ca;
-  --surface-grey: #242424;
-  --lilac: #302836;
-  --line: #707070;
-  --focus-color: #ffdf70;
-  --link-hover: #ffdf70;
-  --brand-mark-background: #ff895c;
-  --brand-mark-text: #1a1a1a;
-  --mailing-background: #090909;
-  --mailing-foreground: #f5f5f0;
-  --mailing-control-background: #242424;
-  --mailing-control-text: #f5f5f0;
-  --mailing-button-background: #f5f5f0;
-  --mailing-button-text: #171717;
-  --mailing-link: #e3e3df;
+  --charcoal: #eff5ed;
+  --off-white: #101914;
+  --orange: #ff907a;
+  --slate: #adbbb1;
+  --surface-grey: #18251e;
+  --lilac: #20352b;
+  --line: #35453b;
+  --focus-color: #d9ff63;
+  --link-hover: #d9ff63;
+  --brand-mark-background: #d9ff63;
+  --brand-mark-text: #17241e;
+  --mailing-background: #08110c;
+  --mailing-foreground: #eff5ed;
+  --mailing-control-background: #18251e;
+  --mailing-control-text: #eff5ed;
+  --mailing-button-background: #d9ff63;
+  --mailing-button-text: #17241e;
+  --mailing-link: #e1e9e1;
+  color-scheme: dark;
+}
+
+/* A warm paper palette offers an additional reading-friendly colour option. */
+:root:has(#root > .site-shell.color-variant) {
+  --charcoal: #173c34;
+  --off-white: #f5f4e9;
+  --orange: #ae4c35;
+  --slate: #495f55;
+  --surface-grey: #e9eadd;
+  --lilac: #dce8df;
+  --line: #8a9b91;
+  --focus-color: #173c34;
+  --link-hover: #173c34;
+  --brand-mark-background: #d9ff63;
+  --brand-mark-text: #fff;
+  --mailing-background: #173c34;
+  --mailing-foreground: #f5f4e9;
+  --mailing-control-background: #f5f4e9;
+  --mailing-control-text: #173c34;
+  --mailing-button-background: #d9ff63;
+  --mailing-button-text: #173c34;
+  --mailing-link: #f5f4e9;
+  color-scheme: light;
+}
+
+/* Preserve the reading palette when dark mode is enabled. */
+:root:has(#root > .site-shell.dark-mode.color-variant) {
+  --charcoal: #f5f4e9;
+  --off-white: #101a14;
+  --orange: #ff907a;
+  --slate: #bfcdc2;
+  --surface-grey: #1d2a22;
+  --lilac: #25382d;
+  --line: #687a6e;
+  --focus-color: #d9ff63;
+  --link-hover: #d9ff63;
+  --brand-mark-background: #d9ff63;
+  --brand-mark-text: #101a14;
+  --mailing-background: #09120d;
+  --mailing-foreground: #f5f4e9;
+  --mailing-control-background: #1d2a22;
+  --mailing-control-text: #f5f4e9;
+  --mailing-button-background: #d9ff63;
+  --mailing-button-text: #101a14;
+  --mailing-link: #f5f4e9;
   color-scheme: dark;
 }
 
@@ -58,8 +109,8 @@
 :root:has(#root > .site-shell.high-contrast) {
   --charcoal: #000;
   --off-white: #fff;
-  --orange: #8a2600;
-  --slate: #333;
+  --orange: #7a2c15;
+  --slate: #252525;
   --surface-grey: #fff;
   --lilac: #fff;
   --line: #000;
@@ -105,10 +156,13 @@
   box-sizing: border-box;
 }
 
-/* The page uses the full viewport without a browser-default margin. */
+/* Use a calm editorial canvas and prevent accidental horizontal scrolling. */
 body {
   margin: 0;
   min-width: 320px;
+  background:
+    radial-gradient(ellipse at 82% 1%, rgb(217 255 99 / 9%), transparent 27rem),
+    var(--off-white);
 }
 
 /* The main content area stays readable on wide screens. */
@@ -122,16 +176,17 @@ body {
   min-height: 100vh;
   color: var(--charcoal);
   background: var(--off-white);
+  transition: color 180ms ease, background-color 180ms ease;
 }
 
-/* Headings use an athletic display face for a distinct brand hierarchy. */
+/* Headings retain a confident athletic feel without reducing readability. */
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 0.035em;
-  text-transform: uppercase;
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
 }
 
 /* Shared page elements start without extra space above their content. */
@@ -145,7 +200,7 @@ blockquote {
 h2 {
   margin-bottom: 0.75rem;
   font-size: clamp(1.85rem, 3.2vw, 2.65rem);
-  line-height: 1.05;
+  line-height: 1.1;
 }
 
 /* Card headings add a clear display-style step below section headings. */
@@ -153,6 +208,51 @@ h3 {
   margin-bottom: 0.5rem;
   font-size: 1.3rem;
   line-height: 1.1;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  line-height: 0.98;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--link-hover);
+  text-underline-offset: 0.19em;
+}
+
+button,
+input,
+select,
+textarea {
+  color: var(--charcoal);
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:not(:disabled),
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input,
+select,
+textarea {
+  accent-color: var(--blue);
+}
+
+::selection {
+  color: #17241e;
+  background: #d9ff63;
 }
 
 /* Paragraphs and lists retain the accessible minimum text size. */
@@ -165,7 +265,9 @@ address {
 
 /* Form controls inherit the same readable body typeface as page copy. */
 input,
-button {
+button,
+select,
+textarea {
   font-family: var(--font-body);
   font-size: 1rem;
 }
@@ -174,6 +276,8 @@ button {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
 summary:focus-visible {
   outline: 3px solid var(--focus-color);
   outline-offset: 2px;
@@ -194,9 +298,20 @@ summary:focus-visible {
 /* Eyebrow labels add a consistent visual cue above section headings. */
 .eyebrow {
   margin-bottom: 0.4rem;
-  color: var(--slate);
+  color: var(--blue);
   font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

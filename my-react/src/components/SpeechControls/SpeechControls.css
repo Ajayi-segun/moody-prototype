@@ -1,0 +1,257 @@
+.speech-controls {
+  position: sticky;
+  z-index: 19;
+  top: var(--site-header-height, 0px);
+  display: grid;
+  grid-template-columns: minmax(195px, 0.75fr) minmax(0, 2fr);
+  gap: 1rem clamp(1.25rem, 3vw, 2.5rem);
+  align-items: center;
+  min-height: 95px;
+  padding: 0.9rem max(5vw, 1.25rem);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(110deg, rgb(217 255 99 / 10%), transparent 50%),
+    var(--lilac);
+  box-shadow: 0 8px 18px rgb(23 36 30 / 7%);
+}
+
+.speech-controls[hidden] {
+  display: none;
+}
+
+.speech-hide-button {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.8rem;
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  place-items: center;
+  color: var(--charcoal);
+  background: var(--off-white);
+  font: inherit;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.speech-hide-button:hover,
+.speech-show-button:hover {
+  background: var(--brand-mark-background);
+}
+
+.speech-show-button {
+  position: fixed;
+  z-index: 19;
+  top: calc(var(--site-header-height, 0px) + 1rem);
+  right: 0;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.9rem 0.55rem 0.75rem;
+  border: 1px solid var(--line);
+  border-right: 0;
+  border-radius: 999px 0 0 999px;
+  color: var(--charcoal);
+  background: var(--lilac);
+  box-shadow: 0 5px 16px rgb(23 36 30 / 14%);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.speech-show-button span {
+  font-size: 1.15rem;
+}
+
+.speech-controls-copy {
+  position: relative;
+  padding-left: 3.2rem;
+}
+
+.speech-controls-icon {
+  position: absolute;
+  top: 0.2rem;
+  left: 0;
+  display: grid;
+  width: 2.45rem;
+  height: 2.45rem;
+  border: 1px solid rgb(23 36 30 / 7%);
+  border-radius: 50%;
+  place-items: center;
+  color: #17241e;
+  background: var(--brand-mark-background);
+  font-size: 1.45rem;
+  font-weight: 900;
+}
+
+.speech-controls .eyebrow {
+  margin-bottom: 0.15rem;
+  font-size: 0.66rem;
+}
+
+.speech-controls-title {
+  margin: 0;
+  color: var(--charcoal);
+  font-size: 1.12rem;
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.speech-controls-copy > p:last-child {
+  margin: 0.28rem 0 0;
+  color: var(--slate);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.speech-controls-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.48rem;
+  align-items: end;
+}
+
+.speech-controls-actions button,
+.speech-controls-actions select,
+.speech-controls-actions input[type="range"] {
+  min-height: 40px;
+}
+
+.speech-controls-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.72rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--charcoal);
+  background: var(--off-white);
+  font: inherit;
+  font-size: 0.79rem;
+  font-weight: 750;
+  cursor: pointer;
+  transition: transform 150ms ease, background 150ms ease;
+}
+
+.speech-controls-actions .speech-read-button {
+  min-width: 88px;
+  border-color: var(--blue);
+  color: #fff;
+  background: var(--blue);
+}
+
+.speech-controls-actions .speech-read-button span {
+  font-size: 0.7rem;
+}
+
+.speech-controls-actions button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.speech-controls-actions .speech-read-button:hover:not(:disabled) {
+  background: var(--link-hover);
+}
+
+.speech-controls-actions button:disabled {
+  opacity: 0.52;
+  cursor: not-allowed;
+}
+
+.speech-controls-actions label:not(.speech-click-option) {
+  display: grid;
+  gap: 0.2rem;
+  color: var(--slate);
+  font-size: 0.7rem;
+  font-weight: 750;
+}
+
+.speech-controls-actions select {
+  max-width: 12.5rem;
+  min-height: 40px;
+  padding: 0.35rem 1.7rem 0.35rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--charcoal);
+  background: var(--off-white);
+  font: inherit;
+  font-size: 0.78rem;
+}
+
+.speech-controls-actions input[type="range"] {
+  width: 8.5rem;
+  accent-color: var(--blue);
+}
+
+.speech-click-option {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--slate);
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.speech-click-option input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+}
+
+.speech-status {
+  grid-column: 1 / -1;
+  min-height: 0;
+  margin: 0;
+  color: var(--slate);
+  font-size: 0.78rem;
+}
+
+.speech-status:not(:empty) {
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 960px) {
+  .speech-controls {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .speech-controls {
+    padding: 0.85rem 1rem;
+    padding-right: 3.25rem;
+  }
+
+  .speech-hide-button {
+    top: 0.65rem;
+    right: 0.65rem;
+  }
+
+  .speech-controls-actions {
+    gap: 0.4rem;
+  }
+
+  .speech-controls-actions label:not(.speech-click-option) {
+    flex: 1 1 120px;
+  }
+
+  .speech-controls-actions select,
+  .speech-controls-actions input[type="range"] {
+    width: 100%;
+    max-width: none;
+  }
+
+  .speech-click-option {
+    flex-basis: 100%;
+  }
+}

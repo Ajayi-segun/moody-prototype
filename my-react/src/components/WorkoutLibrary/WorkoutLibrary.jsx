@@ -212,6 +212,7 @@ function WorkoutLibrary() {
       <p className="workout-video-note">
         Videos are stored on ToKa Fitness and play here, so no trip to YouTube is needed. Some clips show compound lifts that work more than one muscle group; notes explain where a demo is a supporting example rather than a direct isolation exercise.
       </p>
+      <p><a href="/premium-training">Create a custom routine and track progress with Premium.</a></p>
       <details className="video-credits">
         <summary>Video credits and licences</summary>
         <ul>

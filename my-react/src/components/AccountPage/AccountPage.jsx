@@ -275,6 +275,11 @@ function AccountPage({
         onSignedIn(result.user)
         setPassword('')
         setMessage('You are signed in to ToKa Fitness.')
+        const nextPath = new URLSearchParams(window.location.search).get('next')
+        if (nextPath === '/membership') {
+          window.history.replaceState({}, '', nextPath)
+          window.dispatchEvent(new PopStateEvent('popstate'))
+        }
       }
     } catch (requestError) {
       setError(

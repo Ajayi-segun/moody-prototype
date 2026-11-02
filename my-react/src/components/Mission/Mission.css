@@ -5,7 +5,18 @@
 
 /* The mission heading uses the primary brand text colour. */
 .mission-copy h2 {
+  max-width: 16ch;
+  margin-bottom: 1rem;
   color: var(--charcoal);
+}
+
+.mission-copy .eyebrow {
+  margin-bottom: 0.65rem;
+  color: var(--blue);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 /* The final mission paragraph has no unnecessary trailing gap. */

@@ -10,9 +10,14 @@ import ArticleGrid from './components/ArticleGrid/ArticleGrid.jsx'
 import Testimonials from './components/Testimonials/Testimonials.jsx'
 import Locations from './components/Locations/Locations.jsx'
 import MailingList from './components/MailingList/MailingList.jsx'
+import MailingListUnsubscribe from './components/MailingList/MailingListUnsubscribe.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import AccountPage from './components/AccountPage/AccountPage.jsx'
 import WorkoutLibrary from './components/WorkoutLibrary/WorkoutLibrary.jsx'
+import ChatPage from './components/ChatPage/ChatPage.jsx'
+import MembershipPage from './components/MembershipPage/MembershipPage.jsx'
+import SpeechControls from './components/SpeechControls/SpeechControls.jsx'
+import PremiumTraining from './components/PremiumTraining/PremiumTraining.jsx'
 import { getCurrentMember, signOutMember } from './lib/account.js'
 import './styles/global.css'
 import './App.css'
@@ -29,12 +34,14 @@ function readDisplayPreferences() {
     return {
       darkMode: preferences.darkMode === true,
       highContrast: preferences.highContrast === true,
+      colorVariant: preferences.colorVariant === true,
       notice: '',
     }
   } catch {
     return {
       darkMode: false,
       highContrast: false,
+      colorVariant: false,
       notice: 'Saved display preferences could not be read. You can still change them for this visit.',
     }
   }
@@ -47,6 +54,7 @@ function saveDisplayPreferences(preferences) {
       JSON.stringify({
         darkMode: preferences.darkMode,
         highContrast: preferences.highContrast,
+        colorVariant: preferences.colorVariant,
       }),
     )
     return ''
@@ -61,7 +69,6 @@ function App() {
   const [user, setUser] = useState(null)
   const [authLoading, setAuthLoading] = useState(pagePath !== '/register')
   const [authNotice, setAuthNotice] = useState('')
-  const [authCheck, setAuthCheck] = useState(0)
   const [passwordRecovery, setPasswordRecovery] = useState(
     () => new URLSearchParams(window.location.hash.slice(1)).get('type') === 'recovery',
   )
@@ -77,7 +84,28 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
 
-  
+  useEffect(() => {
+    const header = document.querySelector('.site-header')
+    if (!header) return undefined
+
+    function updateHeaderHeight() {
+      document.documentElement.style.setProperty(
+        '--site-header-height',
+        `${header.getBoundingClientRect().height}px`,
+      )
+    }
+
+    updateHeaderHeight()
+    const observer = new ResizeObserver(updateHeaderHeight)
+    observer.observe(header)
+
+    return () => {
+      observer.disconnect()
+      document.documentElement.style.removeProperty('--site-header-height')
+    }
+  }, [])
+
+
   useEffect(() => {
     let active = true
 
@@ -89,11 +117,11 @@ function App() {
 
         setUser(member)
         setAuthNotice('')
-      } catch (error) {
+      } catch {
         if (!active) return
 
         setUser(null)
-        setAuthNotice(error.message)
+        setAuthNotice('')
       } finally {
         if (active) {
           setAuthLoading(false)
@@ -106,7 +134,7 @@ function App() {
     return () => {
       active = false
     }
-  }, [authCheck])
+  }, [])
 
 
   function handleInternalNavigation(event) {
@@ -159,12 +187,6 @@ function App() {
     }
   }
 
-  function retryAuthConnection() {
-    setAuthNotice('')
-    setAuthLoading(true)
-    setAuthCheck((current) => current + 1)
-  }
-
   function changeDisplayPreference(preference) {
     const nextPreferences = {
       ...displayPreferences,
@@ -205,19 +227,14 @@ function App() {
         )
       case '/training':
         return <WorkoutLibrary />
+      case '/premium-training':
+        return <PremiumTraining key={user?.id ?? 'guest'} user={user} />
       case '/membership':
         return (
-          <section className="standalone-page" aria-labelledby="page-heading">
-            <p className="eyebrow">Find your way to move</p>
-            <h1 id="page-heading">Membership</h1>
-            <p className="page-intro">
-              Build a routine that fits your life with practical guidance, flexible training ideas and a supportive community.
-            </p>
-            <MemberTools />
-            <Faq />
-            <p><a href="/contact">Get in touch about visiting ToKa Fitness</a></p>
-          </section>
+          <MembershipPage key={user?.id ?? 'guest'} user={user} loading={authLoading} />
         )
+      case '/chat':
+        return <ChatPage user={user} />
       case '/contact':
         return (
           <section className="standalone-page contact-page" aria-labelledby="page-heading">
@@ -229,6 +246,8 @@ function App() {
             <Locations />
           </section>
         )
+      case '/unsubscribe':
+        return <MailingListUnsubscribe />
       case '/sign-in':
       case '/register':
       case '/account':
@@ -263,21 +282,22 @@ function App() {
 
   return (
     <div
-      className={`site-shell${displayPreferences.darkMode ? ' dark-mode' : ''}${displayPreferences.highContrast ? ' high-contrast' : ''}`}
+      className={`site-shell${displayPreferences.darkMode ? ' dark-mode' : ''}${displayPreferences.highContrast ? ' high-contrast' : ''}${displayPreferences.colorVariant ? ' color-variant' : ''}`}
       onClick={handleInternalNavigation}
     >
       <a className="skip-link" href="#main-content">Skip to content</a>
       <Header
         darkMode={displayPreferences.darkMode}
         highContrast={displayPreferences.highContrast}
+        colorVariant={displayPreferences.colorVariant}
         preferenceNotice={displayPreferences.notice}
         user={user}
-        authNotice={authNotice}
-        onRetryAuth={retryAuthConnection}
         onSignOut={signOut}
         onDarkModeChange={() => changeDisplayPreference('darkMode')}
         onHighContrastChange={() => changeDisplayPreference('highContrast')}
+        onColorVariantChange={() => changeDisplayPreference('colorVariant')}
       />
+      <SpeechControls />
       <main id="main-content">{renderPage()}</main>
       <MailingList />
       <Footer />
@@ -295,23 +315,94 @@ function MemberTools() {
         </p>
         <div className="tools-grid">
           <article className="tool-item">
-            <h3>Class booking</h3>
-            <p>Class reservations will be available when the member booking service is ready.</p>
+            <BmiCalculator />
           </article>
           <article className="tool-item">
-            <h3>BMI guidance</h3>
-            <p>A future wellbeing tool will offer general guidance alongside professional advice.</p>
+            <h3>Member community</h3>
+            <p>Connect with verified ToKa Fitness members using private messages.</p>
+            <a href="/chat">Open member messages</a>
           </article>
           <article className="tool-item">
             <WorkoutTimer />
           </article>
           <article className="tool-item">
             <h3>Membership and payments</h3>
-            <p>Membership management and payments will be handled through a secure service.</p>
+            <p>Compare free and Premium access, then pay securely through Stripe.</p>
+            <a href="/membership">Compare memberships</a>
           </article>
         </div>
       </div>
     </section>
+  )
+}
+
+function BmiCalculator() {
+  const [height, setHeight] = useState('')
+  const [weight, setWeight] = useState('')
+  const [result, setResult] = useState(null)
+
+  function calculateBmi(event) {
+    event.preventDefault()
+    const heightMetres = Number(height) / 100
+    const weightKg = Number(weight)
+    if (!heightMetres || !weightKg) return
+
+    const bmi = weightKg / (heightMetres * heightMetres)
+    const category = bmi < 18.5
+      ? 'below the adult reference range'
+      : bmi < 25
+        ? 'within the adult reference range'
+        : bmi < 30
+          ? 'above the adult reference range'
+          : 'well above the adult reference range'
+    const guidance = bmi < 18.5
+      ? 'Choose regular, varied meals with enough energy and nutrients. If you have concerns, ask a qualified professional for personal advice.'
+      : bmi < 25
+        ? 'For general wellbeing, choose varied meals with vegetables, wholegrains, protein and healthy fats.'
+        : 'A varied meal pattern with vegetables, wholegrains, protein and healthy fats can support general wellbeing. Avoid restrictive plans and seek personal advice if needed.'
+
+    setResult({ value: bmi.toFixed(1), category, guidance })
+  }
+
+  return (
+    <div className="bmi-calculator">
+      <h3>BMI guidance</h3>
+      <p>Check an adult BMI estimate and see general, non-medical food guidance.</p>
+      <form onSubmit={calculateBmi}>
+        <label>
+          Height (cm)
+          <input
+            type="number"
+            min="100"
+            max="250"
+            step="0.1"
+            value={height}
+            onChange={(event) => setHeight(event.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Weight (kg)
+          <input
+            type="number"
+            min="25"
+            max="350"
+            step="0.1"
+            value={weight}
+            onChange={(event) => setWeight(event.target.value)}
+            required
+          />
+        </label>
+        <button type="submit">Calculate BMI</button>
+      </form>
+      {result && (
+        <p className="bmi-result" role="status">
+          BMI {result.value}: {result.category}. {result.guidance} This tool is for adults and does
+          not store your measurements.
+        </p>
+      )}
+      <p className="bmi-disclaimer">BMI is a broad screening measure, not a diagnosis or a measure of individual health.</p>
+    </div>
   )
 }
 
@@ -416,15 +507,19 @@ function Faq() {
         <h2 id="faq-heading">Frequently asked questions</h2>
         <details className="faq-item">
           <summary>Can I book a class on this page?</summary>
-          <p>This site is a static preview. Class booking will be added when the member service is available.</p>
+          <p>Contact ToKa Fitness for the current class timetable and reservations. Online class booking is not available yet.</p>
         </details>
         <details className="faq-item">
           <summary>Does the mailing list send my email anywhere?</summary>
-          <p>No. The mailing list is a visual mockup and does not send or store your email address.</p>
+          <p>Only when you choose to join and give consent. Your address is stored securely for email updates, and every welcome email includes an unsubscribe link.</p>
         </details>
         <details className="faq-item">
-          <summary>How can I change the page colours?</summary>
-          <p>Use the Dark mode and High contrast buttons in the header. Both settings can be used together.</p>
+          <summary>How can I listen to a page?</summary>
+          <p>Use the read-aloud controls above the page to play, pause, rewind five words, choose a voice, and adjust reading speed. You can also enable click-to-read.</p>
+        </details>
+        <details className="faq-item">
+          <summary>Can I adjust the page colours?</summary>
+          <p>Use Dark mode, High contrast, and Warm reading colours in the header. The settings can be combined.</p>
         </details>
       </div>
     </section>

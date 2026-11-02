@@ -1,6 +1,6 @@
 /*
- * This component highlights the newest updates from ToKa Fitness.
- * It gives members a quick view of timely classes, guidance and tools.
+ * This component highlights practical ways to get started with ToKa Fitness.
+ * It connects the homepage with the training, accessibility, and member tools.
  */
 import './Specials.css'
 
@@ -10,13 +10,15 @@ function Specials() {
   return (
     <aside className="monthly-updates" aria-labelledby="monthly-heading">
       <div className="update-copy">
-        <h2 id="monthly-heading">New This Month</h2>
+        <p className="eyebrow">A good place to start</p>
+        <h2 id="monthly-heading">Little steps. Big main-character energy.</h2>
         <ul>
-          <li>A refreshed class timetable</li>
-          <li>Updated meal-plan guidance</li>
-          <li>A new members' blog feed</li>
-          <li>A live gym crowd meter</li>
+          <li>Pick a beginner-friendly workout and start at your pace</li>
+          <li>Listen to any page in the voice that feels right</li>
+          <li>Find your crew and send a little encouragement</li>
+          <li>Build a routine and keep track of every win with membership</li>
         </ul>
+        <a className="updates-action" href="/training">Pick your first workout <span aria-hidden="true">↗</span></a>
       </div>
       <figure className="image-figure image-square">
         <img

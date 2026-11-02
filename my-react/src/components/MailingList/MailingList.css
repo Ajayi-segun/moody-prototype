@@ -1,4 +1,3 @@
-/* The mailing list lays out signup and social links side by side. */
 .mailing-list {
   display: flex;
   align-items: center;
@@ -16,58 +15,67 @@
   font-size: 1.6rem;
 }
 
-/* Email input and button form one horizontal signup group. */
 .mailing-form {
-  display: flex;
-  max-width: 510px;
-  gap: 0.6rem;
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) auto;
+  gap: 0.65rem;
+  max-width: 39rem;
+  margin-top: 1.1rem;
 }
 
-/* The email control has a visible label and bordered light surface. */
-.mailing-form input {
-  min-width: 220px;
+.mailing-form > input {
   min-height: 46px;
-  padding: 0.65rem 0.75rem;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  color: var(--mailing-control-text);
-  background: var(--mailing-control-background);
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgb(255 255 255 / 28%);
+  border-radius: 999px;
+  color: var(--charcoal);
+  background: var(--off-white);
   font: inherit;
 }
 
-/* The join button remains a high-contrast call to action while submitting. */
-.mailing-form button {
-  min-width: 90px;
+.mailing-form > button {
   min-height: 46px;
-  padding: 0.6rem 1rem;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  color: var(--mailing-button-text);
-  background: var(--mailing-button-background);
+  padding: 0.6rem 1.1rem;
+  border: 0;
+  border-radius: 999px;
+  color: var(--charcoal);
+  background: var(--brand-mark-background);
   font: inherit;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
 }
 
-/* The form response clearly explains the static demo behavior. */
+.mailing-form > button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mailing-consent {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--mailing-foreground);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.mailing-consent input {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  margin: 0.1rem 0 0;
+  accent-color: var(--brand-mark-background);
+}
+
 .mailing-feedback {
-  min-height: 1.65em;
+  max-width: 38rem;
   margin: 0.55rem 0 0;
   color: var(--mailing-foreground);
 }
-.mailing-form button:hover {
-  transition: background 0.3s ease-in-out;
-  border: 1px solid var(--orange);
-  color: rgb(211, 198, 174);
-}
 
-.mailing-form button:disabled {
-  cursor: wait;
-  opacity: 0.7;
-}
-
-.mailing-error {
-  color: #ffd2c7;
+.mailing-feedback.is-error {
+  color: #ffd1ce;
 }
 
 /* Footer links appear as a vertical set of three muted lines. */
@@ -120,8 +128,8 @@
     gap: 1.75rem;
   }
 
-  .mailing-form input {
-    min-width: 0;
-    width: 100%;
+  .mailing-form {
+    grid-template-columns: 1fr;
   }
+
 }

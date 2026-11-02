@@ -8,19 +8,35 @@ services:
     dockerContext: .
     healthCheckPath: /api/health
     envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: DATABASE_NAME
+        value: toka_fitness
+      - key: JWT_SECRET
+        sync: false
       - key: TOKA_BREVO_API_KEY
-        sync: false
-      - key: TOKA_SUPABASE_URL
-        sync: false
-      - key: TOKA_SUPABASE_SECRET_KEY
-        sync: false
-      - key: TOKA_SUPABASE_PUBLISHABLE_KEY
         sync: false
       - key: TOKA_EMAIL_FROM
         sync: false
       - key: TOKA_EMAIL_SENDER_NAME
         value: ToKa Fitness
+      - key: TOKA_SUPABASE_URL
+        sync: false
+      - key: TOKA_SUPABASE_SECRET_KEY
+        sync: false
+      - key: TOKA_STRIPE_SECRET_KEY
+        sync: false
+      - key: TOKA_STRIPE_PRICE_PREMIUM
+        sync: false
+      - key: TOKA_STRIPE_PRICE_PRO
+        sync: false
+      - key: TOKA_STRIPE_PRICE_ULTIMATE
+        sync: false
+      - key: TOKA_STRIPE_WEBHOOK_SECRET
+        sync: false
       - key: TOKA_FRONTEND_URL
+        value: https://toka-fitness.onrender.com
+      - key: TOKA_BACKEND_URL
         value: https://toka-fitness.onrender.com
       - key: TOKA_ALLOWED_ORIGINS
         value: https://toka-fitness.onrender.com

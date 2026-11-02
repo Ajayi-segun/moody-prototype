@@ -8,7 +8,7 @@ function Footer() {
   return (
     <footer className="site-footer">
       <p>© ToKa Fitness. All rights reserved.<br />
-        <span className="copyright-notice">Strictly by segz</span>
+        <span className="copyright-notice">Every move counts.</span>
       </p>
     </footer>
   )

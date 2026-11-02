@@ -7,11 +7,11 @@ import './Mission.css'
 function Mission({ showHeading = true }) {
   return (
     <div className="mission-copy">
-      <p className="eyebrow">Stronger, healthier, together</p>
-      {showHeading && <h2 id="mission-heading">Our Mission</h2>}
-      <p>ToKa Fitness makes fitness and healthy-living services easier to access, wherever members are in their journey.</p>
-      <p>We share practical training advice and clear wellbeing guidance to help people build routines that fit real life.</p>
-      <p>Accessibility features, including text-to-speech support, help every member find information in a way that works for them.</p>
+      <p className="eyebrow">Your pace. Your people. Your next win.</p>
+      {showHeading && <h2 id="mission-heading">Move in your own rhythm.</h2>}
+      <p>No perfect routines. No pressure. Just good guidance, good people, and progress that fits real life.</p>
+      <p>Explore practical training advice, try a workout, and find your own reason to show up today. Big goals welcome; one small step counts too.</p>
+      <p>Read along, turn on text-to-speech, and make the page feel like yours. However you move, you belong here.</p>
     </div>
   )
 }

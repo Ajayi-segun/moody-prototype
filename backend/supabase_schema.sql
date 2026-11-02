@@ -101,8 +101,26 @@ create table if not exists public.mailing_list_subscribers (
     email text primary key check (
         email = lower(trim(email)) and char_length(email) <= 254
     ),
-    subscribed_at timestamptz not null default now()
+    subscribed_at timestamptz not null default now(),
+    consent_at timestamptz,
+    unsubscribed_at timestamptz
 );
+
+alter table public.mailing_list_subscribers
+    add column if not exists consent_at timestamptz;
+alter table public.mailing_list_subscribers
+    add column if not exists unsubscribed_at timestamptz;
+
+update public.mailing_list_subscribers
+set unsubscribed_at = now()
+where consent_at is null and unsubscribed_at is null;
+
+alter table public.mailing_list_subscribers
+    drop constraint if exists mailing_list_requires_consent;
+alter table public.mailing_list_subscribers
+    add constraint mailing_list_requires_consent check (
+        consent_at is not null or unsubscribed_at is not null
+    );
 
 alter table public.mailing_list_subscribers enable row level security;
 grant insert, update on public.mailing_list_subscribers to service_role;

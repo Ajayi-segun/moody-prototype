@@ -8,7 +8,7 @@ export async function apiRequest(path, { method = 'GET', body } = {}) {
       body: body ? JSON.stringify(body) : undefined,
     })
   } catch {
-    throw new Error('ToKa Fitness could not reach its mailing-list API. Start the FastAPI server and try again.')
+    throw new Error('ToKa Fitness could not reach its API. Check the connection and try again.')
   }
 
   const responseText = await response.text()
@@ -18,7 +18,7 @@ export async function apiRequest(path, { method = 'GET', body } = {}) {
       result = JSON.parse(responseText)
     } catch {
       const serviceIssue = response.status === 502 || response.status === 503
-        ? 'The ToKa Fitness API is not available. Make sure the FastAPI server is running, then try again.'
+        ? 'The ToKa Fitness API is not available. Check the server configuration, then try again.'
         : `The ToKa Fitness API returned an unexpected response (HTTP ${response.status}). Restart FastAPI and try again.`
       throw new Error(serviceIssue)
     }
@@ -30,7 +30,7 @@ export async function apiRequest(path, { method = 'GET', body } = {}) {
       ? detail.map((item) => item.msg).filter(Boolean).join(' ')
       : detail
     const fallbackMessage = response.status === 502 || response.status === 503
-      ? 'The ToKa Fitness API is unavailable or not configured. Start FastAPI and check its server settings, then try again.'
+      ? 'The ToKa Fitness API is unavailable or not configured. Check the server settings, then try again.'
       : `ToKa Fitness could not complete that request (HTTP ${response.status}). Please try again.`
     throw new Error(message || fallbackMessage)
   }
